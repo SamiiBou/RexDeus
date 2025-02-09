@@ -581,10 +581,6 @@ const DelegationManager_ABI = [
   
 
 
-
-
-
-
 // Utility to create provider and signer
 function getSigner() {
     const provider = new ethers.providers.JsonRpcProvider(
@@ -608,6 +604,9 @@ async function approveToken(spender, amount) {
 async function depositStake(depositAmount) {
     const signer = getSigner();
     const strategyManager = new ethers.Contract(strategyManagerAddress, StrategyManager_ABI, signer);
+
+    console.log("Approving StrategyManager before deposit...");
+    await approveToken(strategyManagerAddress, depositAmount);
 
     console.log("Depositing lsETH into StrategyManager...");
     const tx = await strategyManager.depositIntoStrategy(strategyAddress, lsETHTokenAddress, depositAmount);
