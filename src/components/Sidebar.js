@@ -18,7 +18,7 @@ function Sidebar() {
   return (
     <CSidebar className="border-end" colorScheme="dark">
       <CSidebarHeader className="border-bottom">
-        <CSidebarBrand>Rex Deus</CSidebarBrand>
+        <CSidebarBrand className="title-sidebar">Rex Deus</CSidebarBrand>
       </CSidebarHeader>
       <CSidebarNav>
         <CNavTitle>Menu</CNavTitle>

@@ -26,8 +26,8 @@ function App() {
 function Home() {
   return (
     <div>
-      <h1>Welcome to Rex Deus</h1>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <h1>Welcome to our website !</h1>
+      <p>With our Unreal Engine plugin, you can create and animate intelligent characters powered by advanced AI. <br/>Enhancing immersion and interaction, our solution is perfect for bringing realistic and autonomous virtual agents to life.</p>
     </div>
   );
 }
