@@ -1,6 +1,7 @@
 require('dotenv').config();
 const { ethers } = require("ethers");
 // import { JsonRpcProvider } from 'ethers';
+import { JsonRpcProvider, Wallet } from 'ethers';
 
 
 // Holesky contract addresses.
@@ -583,10 +584,10 @@ const DelegationManager_ABI = [
 
 // Utility to create provider and signer
 function getSigner() {
-    const provider = new ethers.providers.JsonRpcProvider(
+    const provider = new JsonRpcProvider(
         process.env.RPC_URL || "https://eth-holesky.g.alchemy.com/v2/6lsSIg_B0EQ4yOIssBcYSsQqqicNnEd5"
     );
-    return new ethers.Wallet(process.env.PRIVATE_KEY, provider);
+    return new Wallet(process.env.PRIVATE_KEY, provider);
 }
 
 // Function to approve ERC-20 spending for restaking
@@ -595,8 +596,10 @@ async function approveToken(spender, amount) {
     const lsETHToken = new ethers.Contract(lsETHTokenAddress, ERC20_ABI, signer);
 
     console.log("Approving StrategyManager to spend lsETH...");
+
     const tx = await lsETHToken.approve(spender, amount);
     await tx.wait();
+
     console.log("✅ Approval successful.");
 }
 
