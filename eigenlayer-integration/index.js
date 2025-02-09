@@ -1,7 +1,8 @@
-require('dotenv').config();
-const { ethers } = require("ethers");
-// import { JsonRpcProvider } from 'ethers';
-import { JsonRpcProvider, Wallet } from 'ethers';
+// require('dotenv').config();
+// const { ethers } = require("ethers");
+import 'dotenv/config';
+
+import {ethers, JsonRpcProvider, Wallet } from 'ethers';
 
 
 // Holesky contract addresses.
@@ -584,9 +585,7 @@ const DelegationManager_ABI = [
 
 // Utility to create provider and signer
 function getSigner() {
-    const provider = new JsonRpcProvider(
-        process.env.RPC_URL || "https://eth-holesky.g.alchemy.com/v2/6lsSIg_B0EQ4yOIssBcYSsQqqicNnEd5"
-    );
+    const provider = new JsonRpcProvider(process.env.RPC_URL || "https://eth-holesky.g.alchemy.com/v2/6lsSIg_B0EQ4yOIssBcYSsQqqicNnEd5");
     return new Wallet(process.env.PRIVATE_KEY, provider);
 }
 
