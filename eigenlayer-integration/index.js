@@ -673,7 +673,7 @@ async function getQueuedWithdrawals(stakerAddress) {
 }
 
 // Function to complete a queued withdrawal
-async function completeWithdrawal(stakerAddress, withdrawalIndex = 0, receiveAsTokens = true) {
+async function completeWithdrawal(stakerAddress, queueTimestamp, withdrawalIndex = 0, receiveAsTokens = true) {
     const signer = getSigner();
     const delegationManager = new ethers.Contract(delegationManagerAddress, DelegationManager_ABI, signer);
 
@@ -686,7 +686,8 @@ async function completeWithdrawal(stakerAddress, withdrawalIndex = 0, receiveAsT
     const strategies = withdrawalToComplete.strategies;
     const tokens = strategies.map(() => lsETHTokenAddress);
 
-    const withdrawalReady = await isWithdrawalReady(withdrawalToComplete.startBlock);
+    // ✅ Corrected: Use `queueTimestamp`
+    const withdrawalReady = await isWithdrawalReady(queueTimestamp);
     if (!withdrawalReady) {
         console.log("⏳ Withdrawal not yet ready. Try again after 7 days.");
         return;
@@ -713,37 +714,23 @@ async function delegateStake(operatorAddress) {
     console.log("✅ Delegation successful.");
 }
 
-// Main function to run the process
+// Main function
 async function main() {
     try {
         const signer = getSigner();
         const withdrawerAddress = await signer.getAddress();
-
-        console.log(`Using wallet address: ${withdrawerAddress}`);
-
         const amount = ethers.utils.parseUnits("0.01", 18);
 
-        // Approve the token for spending
         await approveToken(strategyManagerAddress, amount);
-
-        // Deposit (Restake) the lsETH
         await depositStake(amount);
-
-        // Delegate the staked assets to an operator
-        const operatorAddress = "0x5accc90436492f24e6af278569691e2c942a676d";
-        await delegateStake(operatorAddress);
-
-        // Queue the withdrawal and get timestamps
         const { queueTimestamp } = await queueWithdrawal(amount, withdrawerAddress);
 
-        console.log(`⏳ Withdrawal queued. You must wait at least 7 days before withdrawing.`);
-
-        console.log("⏳ You can run the script again to complete the withdrawal after 7 days.");
+        console.log("⏳ Withdrawal queued. Run the script again after 7 days to complete the withdrawal.");
 
     } catch (error) {
-        console.error("❌ An error occurred:", error);
+        console.error("❌ Error:", error);
     }
 }
 
-// Run the main function
+// Run the script
 main();
