@@ -7,7 +7,7 @@ function Plugin() {
     alignItems: "center",
     justifyContent: "center",
     minHeight: "100vh",
-    backgroundColor: "#3b3b3b",
+    backgroundColor: "#3b3b3b", 
     padding: "1rem",
   };
 
@@ -20,7 +20,7 @@ function Plugin() {
     maxWidth: "500px",
     width: "100%",
     border: "1px solid rgba(255, 255, 255, 0.2)",
-    backdropFilter: "blur(10px)", 
+    backdropFilter: "blur(10px)",
   };
 
   const headingStyle = {
